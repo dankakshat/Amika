@@ -16,7 +16,8 @@
 - **🎨 Live2D Interactive Avatar:** Full Cubism 4 rendering with smooth idle breathing, eye blinking, hair physics, and cursor tracking.
 - **🗣️ Real-time Lip Sync:** Web Audio API frequency analysis accurately drives Amika's mouth (`ParamMouthOpenY`) in real time as she speaks.
 - **🎭 Expressive Emotions:** Dynamic Live2D facial expressions automatically trigger based on mood tags (`[happy]`, `[blush]`, `[love]`, `[shocked]`, `[pout]`, `[thinking]`, `[sad]`, `[star]`).
-- **🎙️ Universal Voice Input:** Built-in microphone recording powered by Gemini multimodal transcription — works across all browsers including Floorp, Firefox, and Chrome.
+- **📞 Hands-Free Realtime Voice Call:** Continuous conversation powered by browser Voice Activity Detection (VAD). Speak freely and Amika automatically answers when you finish your sentence — no buttons needed!
+- **⚡ Fast Multimodal Voice Chat:** Single-hop `/api/voice_chat` combining Gemini audio understanding and Edge-TTS synthesis for instant sub-2s conversational turnaround.
 - **🔊 Natural Neural Voice:** Crystal-clear speech synthesis using Microsoft Edge TTS (English and Japanese voices).
 - **🖱️ Interactive Camera Controls:** Click and drag to pan the model, mouse wheel to zoom in/out, and a quick Reset View button.
 - **🖥️ Desktop & 24/7 Autostart:** Windows batch scripts and VBS launchers for background startup or 24/7 companion mode.
@@ -90,7 +91,8 @@ http://localhost:8000
 
 ## 💡 Controls & Tips
 
-- **Voice Input:** Click the microphone button to start recording. Amika will transcribe your voice with Gemini and reply instantly.
+- **Realtime Voice Call (Hands-Free):** Click the **"📞 Realtime Call"** button in the top bar. You can speak naturally without clicking anything; Amika detects your speech, waits for your pause, and responds immediately with Live2D lip sync!
+- **Push-to-Talk Mic:** Click the microphone button in the chat dock to record a voice message. Amika will transcribe and answer in one fast step.
 - **Poke Amika:** Click the "Poke Amika" button or click her head to trigger fun reactions and blushing animations.
 - **Adjusting the View:** Left-click and drag anywhere on screen to reposition her; scroll the mouse wheel to zoom. Click "Reset View" to center.
 - **Voice Selection:** Switch between Nanami, Aoi, Ana, Ava, and Jenny neural voices in the Settings dialog.
