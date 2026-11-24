@@ -1,0 +1,141 @@
+{
+  "Version": 3,
+  "FileReferences": {
+    "Moc": "AmikaV4.moc3",
+    "Textures": [
+      "AmikaV4.8192/texture_00.png",
+      "AmikaV4.8192/texture_01.png"
+    ],
+    "Physics": "AmikaV4.physics3.json",
+    "DisplayInfo": "AmikaV4.cdi3.json",
+    "Expressions": [
+      {
+        "Name": "BlackFace",
+        "File": "BlackFace.exp3.json"
+      },
+      {
+        "Name": "Blush",
+        "File": "Blush.exp3.json"
+      },
+      {
+        "Name": "QuestionMark",
+        "File": "QuestionMark.exp3.json"
+      },
+      {
+        "Name": "Shocked",
+        "File": "Shocked.exp3.json"
+      },
+      {
+        "Name": "Panicked",
+        "File": "Panicked.exp3.json"
+      },
+      {
+        "Name": "Angry",
+        "File": "Angry.exp3.json"
+      },
+      {
+        "Name": "Jealous",
+        "File": "Jealous.exp3.json"
+      },
+      {
+        "Name": "Dizzy",
+        "File": "Dizzy.exp3.json"
+      },
+      {
+        "Name": "Loading",
+        "File": "Loading.exp3.json"
+      },
+      {
+        "Name": "Empty",
+        "File": "Empty.exp3.json"
+      },
+      {
+        "Name": "StarEyes",
+        "File": "StarEyes.exp3.json"
+      },
+      {
+        "Name": "HeartEyes",
+        "File": "HeartEyes.exp3.json"
+      },
+      {
+        "Name": "Tears",
+        "File": "Tears.exp3.json"
+      },
+      {
+        "Name": "Sleepy",
+        "File": "Sleepy.exp3.json"
+      },
+      {
+        "Name": "Crying",
+        "File": "Crying.exp3.json"
+      },
+      {
+        "Name": "Awkward",
+        "File": "Awkward.exp3.json"
+      },
+      {
+        "Name": "Mouth_wwww",
+        "File": "Mouth_wwww.exp3.json"
+      },
+      {
+        "Name": "Mouth_judging",
+        "File": "Mouth_judging.exp3.json"
+      },
+      {
+        "Name": "MouthPuffCheek",
+        "File": "MouthPuffCheek.exp3.json"
+      },
+      {
+        "Name": "Mouth_wwww2",
+        "File": "Mouth_wwww2.exp3.json"
+      },
+      {
+        "Name": "Mouth_D",
+        "File": "Mouth_D.exp3.json"
+      },
+      {
+        "Name": "Mouth_Happy",
+        "File": "Mouth_Happy.exp3.json"
+      },
+      {
+        "Name": "Mouth_pout",
+        "File": "Mouth_pout.exp3.json"
+      },
+      {
+        "Name": "Mouth_slightsad",
+        "File": "Mouth_slightsad.exp3.json"
+      },
+      {
+        "Name": "Mouth9",
+        "File": "Mouth9.exp3.json"
+      }
+    ],
+    "Motions": {
+      "Action": [
+        {
+          "File": "Scene1.motion3.json",
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5
+        },
+        {
+          "File": "testWaddle.motion3.json",
+          "FadeInTime": 0.5,
+          "FadeOutTime": 0.5
+        }
+      ]
+    }
+  },
+  "Groups": [
+    {
+      "Target": "Parameter",
+      "Name": "EyeBlink",
+      "Ids": []
+    },
+    {
+      "Target": "Parameter",
+      "Name": "LipSync",
+      "Ids": []
+    }
+  ],
+  "HitAreas": []
+}

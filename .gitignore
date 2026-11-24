@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# Environment Variables & Secrets (CRITICAL)
+.env
+*.env
+!.env.example
+
+# Web / Runtime Temp Profiles
+chrome_profile/
+wv_data/
+*.log
+
+# OS / Editor Files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

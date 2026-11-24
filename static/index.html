@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenAmika Lite · AI Companion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="manifest" href="/static/manifest.json">
+  <link rel="icon" type="image/png" href="/static/icon.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#0d0a14">
+  <style>
+    :root {
+      --bg-dark: #0d0a14;
+      --bg-panel: rgba(23, 17, 36, 0.85);
+      --bg-input: rgba(35, 26, 56, 0.9);
+      --accent-pink: #ff6b9d;
+      --accent-purple: #a855f7;
+      --accent-cyan: #38bdf8;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: rgba(168, 85, 247, 0.25);
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+
+    body {
+      font-family: 'Outfit', 'Zen Maru Gothic', sans-serif;
+      background: radial-gradient(circle at 50% 30%, #1e1333 0%, var(--bg-dark) 100%);
+      color: var(--text-main);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Ambient background lights */
+    .ambient-glow {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(255, 107, 157, 0.15) 0%, transparent 70%);
+      top: 15%;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      filter: blur(40px);
+      z-index: 1;
+    }
+
+    /* Header */
+    header {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 20;
+      background: linear-gradient(to bottom, rgba(13, 10, 20, 0.8) 0%, transparent 100%);
+      backdrop-filter: blur(8px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      font-size: 24px;
+      line-height: 1;
+      filter: drop-shadow(0 0 10px rgba(255, 107, 157, 0.6));
+    }
+
+    .brand-title {
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: 0.5px;
+      background: linear-gradient(135deg, #fff 0%, #ffc0d3 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(168, 85, 247, 0.2);
+      border: 1px solid var(--border);
+      color: var(--accent-pink);
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .icon-btn {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 8px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(12px);
+    }
+
+    .icon-btn:hover {
+      background: rgba(168, 85, 247, 0.3);
+      border-color: var(--accent-pink);
+      transform: translateY(-1px);
+    }
+
+    /* Live2D Canvas Stage */
+    #stage-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 5;
+      overflow: hidden;
+      cursor: grab;
+    }
+
+    #stage-container:active {
+      cursor: grabbing;
+    }
+
+    canvas#live2d {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Control Hint */
+    .view-controls-hint {
+      position: absolute;
+      bottom: 85px;
+      right: 24px;
+      background: rgba(23, 17, 36, 0.6);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 10px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      z-index: 18;
+      backdrop-filter: blur(8px);
+      pointer-events: none;
+    }
+
+    /* Dialogue bubble */
+    .dialogue-wrap {
+      position: absolute;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      max-width: 580px;
+      width: 90%;
+      z-index: 15;
+      pointer-events: none;
+    }
+
+    .dialogue-bubble {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(16px);
+      padding: 14px 20px;
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      opacity: 0;
+      transform: translateY(10px) scale(0.98);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .dialogue-bubble.visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    .dialogue-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .speaker-name {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--accent-pink);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .emotion-indicator {
+      font-size: 0.75rem;
+      background: rgba(255, 107, 157, 0.15);
+      color: #ff94ba;
+      padding: 2px 8px;
+      border-radius: 6px;
+      text-transform: capitalize;
+    }
+
+    .dialogue-text {
+      font-size: 1.05rem;
+      line-height: 1.5;
+      color: #ffffff;
+      font-weight: 400;
+    }
+
+    /* Chat dock */
+    .chat-dock {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 680px;
+      z-index: 20;
+    }
+
+    .chat-box {
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 8px 10px 8px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: var(--shadow);
+      transition: border-color 0.2s ease;
+    }
+
+    .chat-box:focus-within {
+      border-color: var(--accent-pink);
+      box-shadow: 0 0 25px rgba(255, 107, 157, 0.25);
+    }
+
+    .chat-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #fff;
+      font-family: inherit;
+      font-size: 1rem;
+      padding: 8px 0;
+      user-select: text;
+    }
+
+    .chat-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .action-btn {
+      background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-purple) 100%);
+      color: white;
+      border: none;
+      outline: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .action-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 16px rgba(255, 107, 157, 0.4);
+    }
+
+    .action-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .mic-btn {
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+    }
+
+    .mic-btn.recording {
+      background: #ef4444;
+      color: white;
+      border-color: #ef4444;
+      animation: pulse 1.2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
+      70% { box-shadow: 0 0 0 12px rgba(239, 68, 68, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: #171124;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      width: 90%;
+      max-width: 480px;
+      padding: 28px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      transform: translateY(20px);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-backdrop.open .modal-card {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .modal-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .field-group {
+      margin-bottom: 18px;
+    }
+
+    .field-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #e2e8f0;
+    }
+
+    .field-input, .field-select {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.95rem;
+      outline: none;
+      user-select: text;
+    }
+
+    .field-input:focus, .field-select:focus {
+      border-color: var(--accent-pink);
+    }
+
+    .field-hint {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+
+    .modal-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--accent-pink) 0%, var(--accent-purple) 100%);
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 14px;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: opacity 0.2s;
+    }
+
+    .modal-btn:hover {
+      opacity: 0.9;
+    }
+
+    /* Loading overlay */
+    #loading-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-dark);
+      z-index: 50;
+      transition: opacity 0.5s ease;
+    }
+
+    #loading-overlay.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 3px solid rgba(255, 107, 157, 0.2);
+      border-top-color: var(--accent-pink);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 16px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambient-glow"></div>
+
+  <!-- Loading Screen -->
+  <div id="loading-overlay">
+    <div class="spinner"></div>
+    <div style="font-weight: 600; color: #f8fafc;">Awakening Amika...</div>
+    <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 6px;">Setting up Live2D canvas</div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <div class="brand-logo">🌸</div>
+      <div>
+        <div class="brand-title">OpenAmika Lite</div>
+      </div>
+      <div class="brand-badge">Potato Laptop Edition</div>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" id="btn-reset-view">🔄 Reset View</button>
+      <button class="icon-btn" id="btn-touch">👋 Poke Amika</button>
+      <button class="icon-btn" id="btn-settings">⚙️ Settings</button>
+    </div>
+  </header>
+
+  <!-- Live2D Stage -->
+  <div id="stage-container">
+    <canvas id="live2d"></canvas>
+  </div>
+
+  <!-- Hints -->
+  <div class="view-controls-hint">
+    🖱️ Drag to move &bull; Scroll wheel to zoom
+  </div>
+
+  <!-- Dialogue Bubble -->
+  <div class="dialogue-wrap">
+    <div class="dialogue-bubble" id="dialogue-box">
+      <div class="dialogue-header">
+        <span class="speaker-name"><span>🌸</span> Sakurai Amika</span>
+        <span class="emotion-indicator" id="emotion-tag">happy</span>
+      </div>
+      <div class="dialogue-text" id="dialogue-content">
+        Loading...
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat Input Dock -->
+  <div class="chat-dock">
+    <div class="chat-box">
+      <button class="action-btn mic-btn" id="btn-mic" title="Voice Input (Speech Recognition)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+          <line x1="12" x2="12" y1="19" y2="22"></line>
+        </svg>
+      </button>
+      <input type="text" class="chat-input" id="chat-input" placeholder="Type a message or press mic to speak..." autocomplete="off">
+      <button class="action-btn" id="btn-send" title="Send message">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal-backdrop" id="modal-settings">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">Settings & Brain</div>
+        <button class="modal-close" id="modal-close">×</button>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="setting-apikey">Google Gemini API Key</label>
+        <input type="password" class="field-input" id="setting-apikey" placeholder="Enter your Gemini API key (or set in .env)">
+        <div class="field-hint">
+          API Key added and active. Saved in your browser session.
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label" for="setting-voice">Voice Style (Edge-TTS)</label>
+        <select class="field-select" id="setting-voice">
+          <option value="ja-JP-NanamiNeural">Japanese: Nanami (Soft, Anime Female)</option>
+          <option value="ja-JP-AoiNeural">Japanese: Aoi (Cheerful, Sweet)</option>
+          <option value="en-US-AnaNeural" selected>English: Ana (Sweet, Natural Girl)</option>
+          <option value="en-US-AvaNeural">English: Ava (Friendly, Warm)</option>
+          <option value="en-US-JennyNeural">English: Jenny (Conversational)</option>
+        </select>
+        <div class="field-hint">Runs smoothly via cloud neural voice with zero GPU compute.</div>
+      </div>
+
+      <button class="modal-btn" id="btn-save-settings">Save & Apply</button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/static/vendor/live2dcubismcore.min.js"></script>
+  <script src="/static/vendor/pixi-legacy.min.js"></script>
+  <script src="/static/vendor/cubism4.min.js"></script>
+
+  <script>
+    const DEFAULT_KEY = "";
+
+    // State
+    let live2dModel = null;
+    let pixiApp = null;
+    let audioContext = null;
+    let analyserNode = null;
+    let isSpeaking = false;
+    let chatHistory = [];
+    let isMicRecording = false;
+    let recognition = null;
+    let baseModelHeight = 1;
+
+    // Elements
+    const canvas = document.getElementById('live2d');
+    const loadingOverlay = document.getElementById('loading-overlay');
+    const dialogueBox = document.getElementById('dialogue-box');
+    const dialogueText = document.getElementById('dialogue-content');
+    const emotionTag = document.getElementById('emotion-tag');
+    const chatInput = document.getElementById('chat-input');
+    const btnSend = document.getElementById('btn-send');
+    const btnMic = document.getElementById('btn-mic');
+    const btnTouch = document.getElementById('btn-touch');
+    const btnSettings = document.getElementById('btn-settings');
+    const btnResetView = document.getElementById('btn-reset-view');
+    const modalSettings = document.getElementById('modal-settings');
+    const modalClose = document.getElementById('modal-close');
+    const btnSaveSettings = document.getElementById('btn-save-settings');
+    const inputApiKey = document.getElementById('setting-apikey');
+    const selectVoice = document.getElementById('setting-voice');
+
+    // Load persisted settings
+    const savedApiKey = localStorage.getItem('amika_gemini_key') || DEFAULT_KEY;
+    const savedVoice = localStorage.getItem('amika_voice') || 'en-US-AnaNeural';
+    if (savedApiKey) inputApiKey.value = savedApiKey;
+    selectVoice.value = savedVoice;
+
+    // Initialize Pixi.js & Live2D
+    async function initLive2D() {
+      try {
+        pixiApp = new PIXI.Application({
+          view: canvas,
+          autoStart: true,
+          resizeTo: window,
+          backgroundAlpha: 0,
+          antialias: true
+        });
+
+        const modelUrl = '/static/models/Amika/AmikaV4.model3.json';
+        live2dModel = await PIXI.live2d.Live2DModel.from(modelUrl);
+        
+        // Center anchor on model
+        live2dModel.anchor.set(0.5, 0.5);
+        baseModelHeight = live2dModel.height || 2000;
+
+        pixiApp.stage.addChild(live2dModel);
+
+        // Check for saved view position or position by default
+        restoreOrResetPosition();
+
+        window.addEventListener('resize', () => {
+          if (!localStorage.getItem('amika_custom_view')) {
+            resetPosition();
+          }
+        });
+
+        setupDragAndZoom();
+
+        // Mouse focus tracking
+        window.addEventListener('mousemove', (e) => {
+          if (live2dModel && !isDragging) {
+            live2dModel.focus(e.clientX, e.clientY);
+          }
+        });
+
+        // Hide loading
+        loadingOverlay.classList.add('fade-out');
+
+        // Greeting
+        showDialogue("happy", "Hello! I can see you now! I'm Amika, powered by Gemini. Nice to talk to you!");
+        await speakText("Hello! I can see you now! I am Amika, nice to talk to you!");
+
+      } catch (err) {
+        console.error("Live2D Load Error:", err);
+        loadingOverlay.innerHTML = `<div style="color:#ef4444;text-align:center;padding:20px;">
+          <h3>Failed to load Amika Live2D</h3>
+          <p style="font-size:0.85rem;color:#94a3b8;margin-top:8px;">${err.message}</p>
+        </div>`;
+      }
+    }
+
+    function resetPosition() {
+      if (!live2dModel) return;
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+
+      // Fit Amika: display her face, chest and torso beautifully in upper-middle view
+      const targetH = h * 1.05;
+      const scale = targetH / baseModelHeight;
+      live2dModel.scale.set(scale, scale);
+
+      // Centered horizontally, centered with head and chest visible
+      live2dModel.x = w / 2;
+      live2dModel.y = h * 0.58;
+
+      localStorage.removeItem('amika_custom_view');
+    }
+
+    function restoreOrResetPosition() {
+      const saved = localStorage.getItem('amika_custom_view');
+      if (saved) {
+        try {
+          const v = JSON.parse(saved);
+          live2dModel.scale.set(v.s, v.s);
+          live2dModel.x = v.x;
+          live2dModel.y = v.y;
+          return;
+        } catch (_) {}
+      }
+      resetPosition();
+    }
+
+    function saveCustomView() {
+      if (!live2dModel) return;
+      localStorage.setItem('amika_custom_view', JSON.stringify({
+        s: live2dModel.scale.x,
+        x: live2dModel.x,
+        y: live2dModel.y
+      }));
+    }
+
+    // Drag to pan & Mouse wheel to zoom
+    let isDragging = false;
+    let dragStartX = 0, dragStartY = 0;
+    let modelStartX = 0, modelStartY = 0;
+
+    function setupDragAndZoom() {
+      canvas.addEventListener('mousedown', (e) => {
+        if (e.button === 0) {
+          isDragging = true;
+          dragStartX = e.clientX;
+          dragStartY = e.clientY;
+          modelStartX = live2dModel.x;
+          modelStartY = live2dModel.y;
+        }
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (isDragging && live2dModel) {
+          live2dModel.x = modelStartX + (e.clientX - dragStartX);
+          live2dModel.y = modelStartY + (e.clientY - dragStartY);
+        }
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (isDragging) {
+          isDragging = false;
+          saveCustomView();
+        }
+      });
+
+      // Wheel zoom
+      window.addEventListener('wheel', (e) => {
+        if (!live2dModel) return;
+        const factor = e.deltaY < 0 ? 1.06 : 0.94;
+        const newScale = Math.max(0.1, Math.min(3.5, live2dModel.scale.x * factor));
+        live2dModel.scale.set(newScale, newScale);
+        saveCustomView();
+      }, { passive: true });
+    }
+
+    btnResetView.addEventListener('click', resetPosition);
+
+    // Audio Lip Sync with Web Audio API
+    function playAudioWithLipSync(base64Audio) {
+      if (!base64Audio) return;
+
+      if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+
+      const binary = atob(base64Audio);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) {
+        bytes[i] = binary.charCodeAt(i);
+      }
+
+      audioContext.decodeAudioData(bytes.buffer, (buffer) => {
+        const source = audioContext.createBufferSource();
+        source.buffer = buffer;
+
+        analyserNode = audioContext.createAnalyser();
+        analyserNode.fftSize = 256;
+        source.connect(analyserNode);
+        analyserNode.connect(audioContext.destination);
+
+        isSpeaking = true;
+        source.start(0);
+
+        source.onended = () => {
+          isSpeaking = false;
+          if (live2dModel && live2dModel.internalModel && live2dModel.internalModel.coreModel) {
+            live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthOpenY', 0);
+          }
+        };
+      });
+    }
+
+    // Animation frame lip-sync loop
+    function lipSyncLoop() {
+      requestAnimationFrame(lipSyncLoop);
+      if (isSpeaking && analyserNode && live2dModel && live2dModel.internalModel && live2dModel.internalModel.coreModel) {
+        const dataArray = new Uint8Array(analyserNode.frequencyBinCount);
+        analyserNode.getByteFrequencyData(dataArray);
+
+        let sum = 0;
+        for (let i = 0; i < dataArray.length; i++) {
+          sum += dataArray[i];
+        }
+        const avg = sum / dataArray.length;
+        const mouthOpen = Math.min(1.0, Math.max(0.0, (avg / 65.0) * 1.6));
+        live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthOpenY', mouthOpen);
+      }
+    }
+    lipSyncLoop();
+
+    // Expression handler
+    function setAmikaExpression(emotion) {
+      if (!live2dModel) return;
+      const expMap = {
+        'happy': 'Mouth_Happy',
+        'blush': 'Blush',
+        'love': 'HeartEyes',
+        'star': 'StarEyes',
+        'shocked': 'Shocked',
+        'question': 'QuestionMark',
+        'pout': 'MouthPuffCheek',
+        'sad': 'Tears',
+        'thinking': 'Empty'
+      };
+      const expName = expMap[emotion.toLowerCase()] || 'Mouth_Happy';
+      try {
+        live2dModel.expression(expName);
+      } catch (e) {
+        console.warn("Expression error:", e);
+      }
+    }
+
+    function showDialogue(emotion, text) {
+      emotionTag.innerText = emotion;
+      dialogueText.innerText = text;
+      dialogueBox.classList.add('visible');
+      setAmikaExpression(emotion);
+    }
+
+    async function speakText(text) {
+      try {
+        const voice = localStorage.getItem('amika_voice') || 'en-US-AnaNeural';
+        const res = await fetch('/api/tts', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text, voice })
+        });
+        const data = await res.json();
+        if (data.audio) {
+          playAudioWithLipSync(data.audio);
+        }
+      } catch (e) {
+        console.error("Speak error:", e);
+      }
+    }
+
+    // Chat function
+    async function sendMessage() {
+      const message = chatInput.value.trim();
+      if (!message) return;
+
+      chatInput.value = '';
+      btnSend.disabled = true;
+
+      showDialogue("thinking", "Amika is thinking...");
+
+      try {
+        const apiKey = localStorage.getItem('amika_gemini_key') || DEFAULT_KEY;
+        const voice = localStorage.getItem('amika_voice') || 'en-US-AnaNeural';
+
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message,
+            api_key: apiKey,
+            voice,
+            history: chatHistory
+          })
+        });
+
+        const data = await res.json();
+        showDialogue(data.emotion || "happy", data.clean_text || data.text);
+
+        if (data.audio) {
+          playAudioWithLipSync(data.audio);
+        }
+
+        // Update history
+        chatHistory.push({ role: 'user', content: message });
+        chatHistory.push({ role: 'model', content: data.clean_text || data.text });
+        if (chatHistory.length > 10) chatHistory = chatHistory.slice(-10);
+
+      } catch (err) {
+        showDialogue("sad", "Something went wrong: " + err.message);
+      } finally {
+        btnSend.disabled = false;
+        chatInput.focus();
+      }
+    }
+
+    // Touch / Poke interaction
+    btnTouch.addEventListener('click', () => {
+      const touches = [
+        { emotion: "blush", text: "Ehehe, that tickles! What are you doing~?" },
+        { emotion: "love", text: "I love spending time with you!" },
+        { emotion: "pout", text: "Hey! Don't poke me without asking first, baka~!" },
+        { emotion: "happy", text: "I'm right here with you!" }
+      ];
+      const pick = touches[Math.floor(Math.random() * touches.length)];
+      showDialogue(pick.emotion, pick.text);
+      speakText(pick.text);
+    });
+
+    // Universal Microphone Recording (Works in Floorp, Firefox, Chrome, Edge)
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let isRecording = false;
+
+    btnMic.addEventListener('click', async () => {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        alert("Microphone is not supported in this browser environment.");
+        return;
+      }
+
+      if (!isRecording) {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          audioChunks = [];
+          mediaRecorder = new MediaRecorder(stream);
+
+          mediaRecorder.ondataavailable = (e) => {
+            if (e.data && e.data.size > 0) {
+              audioChunks.push(e.data);
+            }
+          };
+
+          mediaRecorder.onstop = async () => {
+            const mimeType = mediaRecorder.mimeType || 'audio/webm';
+            const audioBlob = new Blob(audioChunks, { type: mimeType });
+            stream.getTracks().forEach(track => track.stop());
+
+            if (audioBlob.size < 500) {
+              chatInput.placeholder = "Type a message or press mic to speak...";
+              return;
+            }
+
+            showDialogue("thinking", "Listening and understanding your voice...");
+
+            try {
+              const formData = new FormData();
+              formData.append("file", audioBlob, "user_speech.webm");
+
+              const res = await fetch("/api/transcribe", {
+                method: "POST",
+                body: formData
+              });
+
+              const data = await res.json();
+              if (data.text && data.text.trim()) {
+                chatInput.value = data.text.trim();
+                sendMessage();
+              } else {
+                showDialogue("question", "I couldn't hear clearly, could you try speaking again?");
+              }
+            } catch (err) {
+              showDialogue("sad", "Voice recognition error: " + err.message);
+            } finally {
+              chatInput.placeholder = "Type a message or press mic to speak...";
+            }
+          };
+
+          mediaRecorder.start();
+          isRecording = true;
+          btnMic.classList.add('recording');
+          chatInput.placeholder = "🔴 Listening to you... Click mic again to finish & send!";
+        } catch (err) {
+          console.error("Mic error:", err);
+          alert("Microphone permission was denied. Please allow microphone access in Floorp's URL bar.");
+        }
+      } else {
+        isRecording = false;
+        btnMic.classList.remove('recording');
+        chatInput.placeholder = "Processing your voice...";
+        if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+          mediaRecorder.stop();
+        }
+      }
+    });
+
+    // Settings Modal
+    btnSettings.addEventListener('click', () => modalSettings.classList.add('open'));
+    modalClose.addEventListener('click', () => modalSettings.classList.remove('open'));
+    modalSettings.addEventListener('click', (e) => {
+      if (e.target === modalSettings) modalSettings.classList.remove('open');
+    });
+
+    btnSaveSettings.addEventListener('click', () => {
+      localStorage.setItem('amika_gemini_key', inputApiKey.value.trim());
+      localStorage.setItem('amika_voice', selectVoice.value);
+      modalSettings.classList.remove('open');
+      showDialogue("happy", "Settings saved! I am ready to talk with my full Gemini brain!");
+      speakText("Settings saved! I am ready to talk with you!");
+    });
+
+    // Enter key
+    chatInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+    btnSend.addEventListener('click', sendMessage);
+
+    // Boot
+    window.addEventListener('DOMContentLoaded', initLive2D);
+  </script>
+</body>
+</html>

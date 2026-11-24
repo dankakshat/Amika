@@ -1,0 +1,1547 @@
+{
+  "config": {
+    "display_name": "Amika",
+    "mouth_open_param": "ParamMouthOpenY",
+    "mouth_form_param": "ParamMouthForm",
+    "scale": 0.85,
+    "busy_expression": "Loading",
+    "busy_motion": "Scene1"
+  },
+  "banks": {
+    "polite_neutral": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "neutral1",
+          "likelihood": 100
+        },
+        {
+          "name": "neutral1.1",
+          "likelihood": 100
+        },
+        {
+          "name": "neutral1.2",
+          "likelihood": 100
+        },
+        {
+          "name": "neutral1.3",
+          "likelihood": 100
+        },
+        {
+          "name": "neutral1.4",
+          "likelihood": 100
+        },
+        {
+          "name": "neutral1.5",
+          "likelihood": 100
+        },
+        {
+          "name": "neutral1.6",
+          "likelihood": 100
+        }
+      ]
+    },
+    "polite_smile": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "happy1",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.1",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.2",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.3",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.4",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.5",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.6",
+          "likelihood": 100
+        }
+      ]
+    },
+    "polite_happy": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "happy1",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.1",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.2",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.3",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.4",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.5",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.6",
+          "likelihood": 100
+        }
+      ]
+    },
+    "polite_caring": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "caring1",
+          "likelihood": 100
+        },
+        {
+          "name": "caring1.1",
+          "likelihood": 100
+        },
+        {
+          "name": "caring1.2",
+          "likelihood": 100
+        }
+      ]
+    },
+    "polite_sad": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "sad1",
+          "likelihood": 100
+        },
+        {
+          "name": "sad1.1",
+          "likelihood": 100
+        },
+        {
+          "name": "sad1.2",
+          "likelihood": 100
+        },
+        {
+          "name": "sad1.3",
+          "likelihood": 100
+        },
+        {
+          "name": "sad1.4",
+          "likelihood": 100
+        },
+        {
+          "name": "sad1.5",
+          "likelihood": 100
+        },
+        {
+          "name": "sad1.6",
+          "likelihood": 100
+        }
+      ]
+    },
+    "polite_worried": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "worried1",
+          "likelihood": 100
+        },
+        {
+          "name": "worried1.1",
+          "likelihood": 100
+        }
+      ]
+    },
+    "polite_cold": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "cold3",
+          "likelihood": 100
+        }
+      ]
+    },
+    "polite_angry": {
+      "emotes": [
+        {
+          "name": "Angry",
+          "likelihood": 45
+        }
+      ],
+      "movements": [
+        {
+          "name": "annoyed1",
+          "likelihood": 100
+        },
+        {
+          "name": "annoyed1.1",
+          "likelihood": 100
+        }
+      ]
+    },
+    "polite_embarrassed": {
+      "emotes": [
+        {
+          "name": "Blush",
+          "likelihood": 55
+        }
+      ],
+      "movements": [
+        {
+          "name": "shy2",
+          "likelihood": 100
+        },
+        {
+          "name": "shy2.1",
+          "likelihood": 100
+        },
+        {
+          "name": "shy2.2",
+          "likelihood": 100
+        }
+      ]
+    },
+    "polite_surprise": {
+      "emotes": [
+        {
+          "name": "Shocked",
+          "likelihood": 60
+        }
+      ],
+      "movements": [
+        {
+          "name": "surprise1",
+          "likelihood": 100
+        },
+        {
+          "name": "surprise1.1",
+          "likelihood": 100
+        },
+        {
+          "name": "surprise1.2",
+          "likelihood": 100
+        },
+        {
+          "name": "surprise1.3",
+          "likelihood": 100
+        },
+        {
+          "name": "surprise1.4",
+          "likelihood": 100
+        }
+      ]
+    },
+    "polite_fear": {
+      "emotes": [
+        {
+          "name": "Panicked",
+          "likelihood": 50
+        }
+      ],
+      "movements": [
+        {
+          "name": "fear1",
+          "likelihood": 100
+        },
+        {
+          "name": "fear1.1",
+          "likelihood": 100
+        },
+        {
+          "name": "fear1.2",
+          "likelihood": 100
+        }
+      ]
+    },
+    "casual_neutral": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "neutral1",
+          "likelihood": 100
+        },
+        {
+          "name": "neutral1.1",
+          "likelihood": 100
+        },
+        {
+          "name": "neutral1.2",
+          "likelihood": 100
+        },
+        {
+          "name": "neutral1.3",
+          "likelihood": 100
+        },
+        {
+          "name": "neutral1.4",
+          "likelihood": 100
+        },
+        {
+          "name": "neutral1.5",
+          "likelihood": 100
+        },
+        {
+          "name": "neutral1.6",
+          "likelihood": 100
+        }
+      ]
+    },
+    "casual_smile": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "happy1",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.1",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.2",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.3",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.4",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.5",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.6",
+          "likelihood": 100
+        }
+      ]
+    },
+    "casual_happy": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "happy2",
+          "likelihood": 100
+        },
+        {
+          "name": "happy2.1",
+          "likelihood": 100
+        },
+        {
+          "name": "happy2.2",
+          "likelihood": 100
+        },
+        {
+          "name": "happy2.3",
+          "likelihood": 100
+        }
+      ]
+    },
+    "casual_very_happy": {
+      "emotes": [
+        {
+          "name": "StarEyes",
+          "likelihood": 45
+        }
+      ],
+      "movements": [
+        {
+          "name": "happy3",
+          "likelihood": 100
+        },
+        {
+          "name": "happy3.1",
+          "likelihood": 100
+        },
+        {
+          "name": "happy3.2",
+          "likelihood": 100
+        },
+        {
+          "name": "happy3.3",
+          "likelihood": 100
+        },
+        {
+          "name": "happy3.4",
+          "likelihood": 100
+        }
+      ]
+    },
+    "casual_playful": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "playful1",
+          "likelihood": 100
+        },
+        {
+          "name": "playful1.1",
+          "likelihood": 100
+        },
+        {
+          "name": "playful1.2",
+          "likelihood": 100
+        }
+      ]
+    },
+    "casual_laughing": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "playful1",
+          "likelihood": 100
+        },
+        {
+          "name": "playful1.1",
+          "likelihood": 100
+        },
+        {
+          "name": "playful1.2",
+          "likelihood": 100
+        }
+      ]
+    },
+    "casual_relieved": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "relieved2",
+          "likelihood": 100
+        },
+        {
+          "name": "relieved2.1",
+          "likelihood": 100
+        }
+      ]
+    },
+    "casual_shy": {
+      "emotes": [
+        {
+          "name": "Blush",
+          "likelihood": 60
+        }
+      ],
+      "movements": [
+        {
+          "name": "shy2",
+          "likelihood": 100
+        },
+        {
+          "name": "shy2.1",
+          "likelihood": 100
+        },
+        {
+          "name": "shy2.2",
+          "likelihood": 100
+        }
+      ]
+    },
+    "casual_embarrassed": {
+      "emotes": [
+        {
+          "name": "Blush",
+          "likelihood": 70
+        }
+      ],
+      "movements": [
+        {
+          "name": "shy2",
+          "likelihood": 100
+        },
+        {
+          "name": "shy2.1",
+          "likelihood": 100
+        },
+        {
+          "name": "shy2.2",
+          "likelihood": 100
+        }
+      ]
+    },
+    "casual_mumbling": {
+      "emotes": [
+        {
+          "name": "Awkward",
+          "likelihood": 50
+        }
+      ],
+      "movements": [
+        {
+          "name": "mumbling1.1",
+          "likelihood": 100
+        }
+      ]
+    },
+    "casual_jealous": {
+      "emotes": [
+        {
+          "name": "Jealous",
+          "likelihood": 80
+        }
+      ],
+      "movements": [
+        {
+          "name": "jealous1",
+          "likelihood": 100
+        },
+        {
+          "name": "jealous1.1",
+          "likelihood": 100
+        },
+        {
+          "name": "jealous1.2",
+          "likelihood": 100
+        },
+        {
+          "name": "jealous1.3",
+          "likelihood": 100
+        },
+        {
+          "name": "jealous3",
+          "likelihood": 100
+        }
+      ]
+    },
+    "casual_caring": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "caring2",
+          "likelihood": 100
+        },
+        {
+          "name": "caring2.1",
+          "likelihood": 100
+        },
+        {
+          "name": "caring2.2",
+          "likelihood": 100
+        }
+      ]
+    },
+    "casual_surprise": {
+      "emotes": [
+        {
+          "name": "Shocked",
+          "likelihood": 75
+        }
+      ],
+      "movements": [
+        {
+          "name": "surprise1",
+          "likelihood": 100
+        },
+        {
+          "name": "surprise1.1",
+          "likelihood": 100
+        },
+        {
+          "name": "surprise1.2",
+          "likelihood": 100
+        },
+        {
+          "name": "surprise1.3",
+          "likelihood": 100
+        },
+        {
+          "name": "surprise1.4",
+          "likelihood": 100
+        }
+      ]
+    },
+    "casual_angry": {
+      "emotes": [
+        {
+          "name": "Angry",
+          "likelihood": 55
+        }
+      ],
+      "movements": [
+        {
+          "name": "angry2",
+          "likelihood": 100
+        },
+        {
+          "name": "angry2.1",
+          "likelihood": 100
+        },
+        {
+          "name": "angry2.2",
+          "likelihood": 100
+        },
+        {
+          "name": "angry2.3",
+          "likelihood": 100
+        }
+      ]
+    },
+    "casual_frustrated": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "annoyed1",
+          "likelihood": 100
+        },
+        {
+          "name": "annoyed1.1",
+          "likelihood": 100
+        }
+      ]
+    },
+    "casual_sad": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "sad2",
+          "likelihood": 100
+        },
+        {
+          "name": "sad2.1",
+          "likelihood": 100
+        },
+        {
+          "name": "sad2.2",
+          "likelihood": 100
+        },
+        {
+          "name": "sad2.3",
+          "likelihood": 100
+        },
+        {
+          "name": "sad2.4",
+          "likelihood": 100
+        }
+      ]
+    },
+    "casual_tired": {
+      "emotes": [
+        {
+          "name": "Sleepy",
+          "likelihood": 35
+        }
+      ],
+      "movements": [
+        {
+          "name": "tired1",
+          "likelihood": 100
+        },
+        {
+          "name": "tired1.1",
+          "likelihood": 100
+        },
+        {
+          "name": "tired1.2",
+          "likelihood": 100
+        },
+        {
+          "name": "tired1.3",
+          "likelihood": 100
+        }
+      ]
+    },
+    "casual_fear": {
+      "emotes": [
+        {
+          "name": "Panicked",
+          "likelihood": 60
+        }
+      ],
+      "movements": [
+        {
+          "name": "fear2",
+          "likelihood": 100
+        },
+        {
+          "name": "fear2.1",
+          "likelihood": 100
+        }
+      ]
+    },
+    "casual_worried": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "worried1",
+          "likelihood": 100
+        },
+        {
+          "name": "worried1.1",
+          "likelihood": 100
+        }
+      ]
+    },
+    "serious_neutral": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "firm1",
+          "likelihood": 100
+        },
+        {
+          "name": "firm1.1",
+          "likelihood": 100
+        }
+      ]
+    },
+    "serious_cold": {
+      "emotes": [
+        {
+          "name": "BlackFace",
+          "likelihood": 35
+        }
+      ],
+      "movements": [
+        {
+          "name": "cold3",
+          "likelihood": 100
+        }
+      ]
+    },
+    "serious_disappointed": {
+      "emotes": [
+        {
+          "name": "BlackFace",
+          "likelihood": 55
+        }
+      ],
+      "movements": [
+        {
+          "name": "sad2",
+          "likelihood": 100
+        },
+        {
+          "name": "sad2.1",
+          "likelihood": 100
+        },
+        {
+          "name": "sad2.2",
+          "likelihood": 100
+        },
+        {
+          "name": "sad2.3",
+          "likelihood": 100
+        },
+        {
+          "name": "sad2.4",
+          "likelihood": 100
+        }
+      ]
+    },
+    "serious_surprise": {
+      "emotes": [
+        {
+          "name": "Shocked",
+          "likelihood": 80
+        }
+      ],
+      "movements": [
+        {
+          "name": "surprise2",
+          "likelihood": 100
+        },
+        {
+          "name": "surprise2.1",
+          "likelihood": 100
+        }
+      ]
+    },
+    "serious_angry": {
+      "emotes": [
+        {
+          "name": "Angry",
+          "likelihood": 75
+        }
+      ],
+      "movements": [
+        {
+          "name": "angry3",
+          "likelihood": 100
+        }
+      ]
+    },
+    "serious_very_angry": {
+      "emotes": [
+        {
+          "name": "Angry",
+          "likelihood": 100
+        }
+      ],
+      "movements": [
+        {
+          "name": "angry1",
+          "likelihood": 100
+        },
+        {
+          "name": "angry1.1",
+          "likelihood": 100
+        },
+        {
+          "name": "angry1.2",
+          "likelihood": 100
+        },
+        {
+          "name": "angry1.3",
+          "likelihood": 100
+        },
+        {
+          "name": "angry1.5",
+          "likelihood": 100
+        },
+        {
+          "name": "angry2",
+          "likelihood": 100
+        },
+        {
+          "name": "angry2.1",
+          "likelihood": 100
+        },
+        {
+          "name": "angry2.2",
+          "likelihood": 100
+        },
+        {
+          "name": "angry2.3",
+          "likelihood": 100
+        },
+        {
+          "name": "angry3",
+          "likelihood": 100
+        }
+      ]
+    },
+    "serious_protective": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "firm1",
+          "likelihood": 100
+        },
+        {
+          "name": "firm1.1",
+          "likelihood": 100
+        }
+      ]
+    },
+    "serious_worried": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "worried2",
+          "likelihood": 100
+        },
+        {
+          "name": "worried2.1",
+          "likelihood": 100
+        }
+      ]
+    },
+    "serious_anxious": {
+      "emotes": [
+        {
+          "name": "Panicked",
+          "likelihood": 55
+        }
+      ],
+      "movements": [
+        {
+          "name": "anxiety1",
+          "likelihood": 100
+        },
+        {
+          "name": "anxiety1.1",
+          "likelihood": 100
+        }
+      ]
+    },
+    "serious_sad": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "sad2",
+          "likelihood": 100
+        },
+        {
+          "name": "sad2.1",
+          "likelihood": 100
+        },
+        {
+          "name": "sad2.2",
+          "likelihood": 100
+        },
+        {
+          "name": "sad2.3",
+          "likelihood": 100
+        },
+        {
+          "name": "sad2.4",
+          "likelihood": 100
+        }
+      ]
+    },
+    "serious_fear": {
+      "emotes": [
+        {
+          "name": "Panicked",
+          "likelihood": 70
+        }
+      ],
+      "movements": [
+        {
+          "name": "fear3",
+          "likelihood": 100
+        }
+      ]
+    },
+    "intimate_neutral": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "neutral1",
+          "likelihood": 100
+        },
+        {
+          "name": "neutral1.1",
+          "likelihood": 100
+        },
+        {
+          "name": "neutral1.2",
+          "likelihood": 100
+        },
+        {
+          "name": "neutral1.3",
+          "likelihood": 100
+        },
+        {
+          "name": "neutral1.4",
+          "likelihood": 100
+        },
+        {
+          "name": "neutral1.5",
+          "likelihood": 100
+        },
+        {
+          "name": "neutral1.6",
+          "likelihood": 100
+        }
+      ]
+    },
+    "intimate_happy": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "happy2",
+          "likelihood": 100
+        },
+        {
+          "name": "happy2.1",
+          "likelihood": 100
+        },
+        {
+          "name": "happy2.2",
+          "likelihood": 100
+        },
+        {
+          "name": "happy2.3",
+          "likelihood": 100
+        }
+      ]
+    },
+    "intimate_very_happy": {
+      "emotes": [
+        {
+          "name": "HeartEyes",
+          "likelihood": 50
+        }
+      ],
+      "movements": [
+        {
+          "name": "happy3",
+          "likelihood": 100
+        },
+        {
+          "name": "happy3.1",
+          "likelihood": 100
+        },
+        {
+          "name": "happy3.2",
+          "likelihood": 100
+        },
+        {
+          "name": "happy3.3",
+          "likelihood": 100
+        },
+        {
+          "name": "happy3.4",
+          "likelihood": 100
+        }
+      ]
+    },
+    "intimate_smile": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "happy1",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.1",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.2",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.3",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.4",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.5",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.6",
+          "likelihood": 100
+        }
+      ]
+    },
+    "intimate_playful": {
+      "emotes": [
+        {
+          "name": "Blush",
+          "likelihood": 35
+        }
+      ],
+      "movements": [
+        {
+          "name": "playful1",
+          "likelihood": 100
+        },
+        {
+          "name": "playful1.1",
+          "likelihood": 100
+        },
+        {
+          "name": "playful1.2",
+          "likelihood": 100
+        }
+      ]
+    },
+    "intimate_shy": {
+      "emotes": [
+        {
+          "name": "Blush",
+          "likelihood": 85
+        }
+      ],
+      "movements": [
+        {
+          "name": "shy2",
+          "likelihood": 100
+        },
+        {
+          "name": "shy2.1",
+          "likelihood": 100
+        },
+        {
+          "name": "shy2.2",
+          "likelihood": 100
+        }
+      ]
+    },
+    "intimate_very_shy": {
+      "emotes": [
+        {
+          "name": "Blush",
+          "likelihood": 100
+        }
+      ],
+      "movements": [
+        {
+          "name": "shy1",
+          "likelihood": 100
+        },
+        {
+          "name": "shy1.1",
+          "likelihood": 100
+        },
+        {
+          "name": "shy1.2",
+          "likelihood": 100
+        },
+        {
+          "name": "shy2",
+          "likelihood": 100
+        },
+        {
+          "name": "shy2.1",
+          "likelihood": 100
+        },
+        {
+          "name": "shy2.2",
+          "likelihood": 100
+        }
+      ]
+    },
+    "intimate_caring": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "caring3",
+          "likelihood": 100
+        }
+      ]
+    },
+    "intimate_very_caring": {
+      "emotes": [
+        {
+          "name": "HeartEyes",
+          "likelihood": 35
+        }
+      ],
+      "movements": [
+        {
+          "name": "caring3",
+          "likelihood": 100
+        }
+      ]
+    },
+    "intimate_jealous": {
+      "emotes": [
+        {
+          "name": "Jealous",
+          "likelihood": 80
+        }
+      ],
+      "movements": [
+        {
+          "name": "jealous1",
+          "likelihood": 100
+        },
+        {
+          "name": "jealous1.1",
+          "likelihood": 100
+        },
+        {
+          "name": "jealous1.2",
+          "likelihood": 100
+        },
+        {
+          "name": "jealous1.3",
+          "likelihood": 100
+        }
+      ]
+    },
+    "intimate_mumbling": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "mumbling1.1",
+          "likelihood": 100
+        }
+      ]
+    },
+    "intimate_relieved": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "relieved2",
+          "likelihood": 100
+        },
+        {
+          "name": "relieved2.1",
+          "likelihood": 100
+        }
+      ]
+    },
+    "intimate_tearful": {
+      "emotes": [
+        {
+          "name": "Crying",
+          "likelihood": 90
+        }
+      ],
+      "movements": [
+        {
+          "name": "sad3",
+          "likelihood": 100
+        },
+        {
+          "name": "sad3.1",
+          "likelihood": 100
+        },
+        {
+          "name": "sad3.2",
+          "likelihood": 100
+        }
+      ]
+    },
+    "intimate_sad": {
+      "emotes": [
+        {
+          "name": "Tears",
+          "likelihood": 40
+        }
+      ],
+      "movements": [
+        {
+          "name": "sad2",
+          "likelihood": 100
+        },
+        {
+          "name": "sad2.1",
+          "likelihood": 100
+        },
+        {
+          "name": "sad2.2",
+          "likelihood": 100
+        },
+        {
+          "name": "sad2.3",
+          "likelihood": 100
+        },
+        {
+          "name": "sad2.4",
+          "likelihood": 100
+        }
+      ]
+    },
+    "intimate_very_sad": {
+      "emotes": [
+        {
+          "name": "Crying",
+          "likelihood": 55
+        }
+      ],
+      "movements": [
+        {
+          "name": "sad3",
+          "likelihood": 100
+        },
+        {
+          "name": "sad3.1",
+          "likelihood": 100
+        },
+        {
+          "name": "sad3.2",
+          "likelihood": 100
+        }
+      ]
+    },
+    "intimate_sleepy": {
+      "emotes": [
+        {
+          "name": "Sleepy",
+          "likelihood": 90
+        }
+      ],
+      "movements": [
+        {
+          "name": "sleepy1",
+          "likelihood": 100
+        },
+        {
+          "name": "sleepy1.1",
+          "likelihood": 100
+        }
+      ]
+    },
+    "intimate_tired": {
+      "emotes": [
+        {
+          "name": "Sleepy",
+          "likelihood": 45
+        }
+      ],
+      "movements": [
+        {
+          "name": "tired2",
+          "likelihood": 100
+        },
+        {
+          "name": "tired2.1",
+          "likelihood": 100
+        }
+      ]
+    },
+    "intimate_worried": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "worried1",
+          "likelihood": 100
+        },
+        {
+          "name": "worried1.1",
+          "likelihood": 100
+        }
+      ]
+    },
+    "whisper_neutral": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "whisper1",
+          "likelihood": 100
+        }
+      ]
+    },
+    "whisper_happy": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "happy1",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.1",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.2",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.3",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.4",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.5",
+          "likelihood": 100
+        },
+        {
+          "name": "happy1.6",
+          "likelihood": 100
+        }
+      ]
+    },
+    "whisper_smile": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "whisper1",
+          "likelihood": 100
+        }
+      ]
+    },
+    "whisper_caring": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "caring1",
+          "likelihood": 100
+        },
+        {
+          "name": "caring1.1",
+          "likelihood": 100
+        },
+        {
+          "name": "caring1.2",
+          "likelihood": 100
+        }
+      ]
+    },
+    "whisper_relieved": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "relieved2",
+          "likelihood": 100
+        },
+        {
+          "name": "relieved2.1",
+          "likelihood": 100
+        }
+      ]
+    },
+    "whisper_shy": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "shy1",
+          "likelihood": 100
+        },
+        {
+          "name": "shy1.1",
+          "likelihood": 100
+        },
+        {
+          "name": "shy1.2",
+          "likelihood": 100
+        }
+      ]
+    },
+    "whisper_sad": {
+      "emotes": [
+        {
+          "name": "Tears",
+          "likelihood": 55
+        }
+      ],
+      "movements": [
+        {
+          "name": "sad1",
+          "likelihood": 100
+        },
+        {
+          "name": "sad1.1",
+          "likelihood": 100
+        },
+        {
+          "name": "sad1.2",
+          "likelihood": 100
+        },
+        {
+          "name": "sad1.3",
+          "likelihood": 100
+        },
+        {
+          "name": "sad1.4",
+          "likelihood": 100
+        },
+        {
+          "name": "sad1.5",
+          "likelihood": 100
+        },
+        {
+          "name": "sad1.6",
+          "likelihood": 100
+        }
+      ]
+    },
+    "whisper_worried": {
+      "emotes": [],
+      "movements": [
+        {
+          "name": "worried1",
+          "likelihood": 100
+        },
+        {
+          "name": "worried1.1",
+          "likelihood": 100
+        }
+      ]
+    },
+    "whisper_tearful": {
+      "emotes": [
+        {
+          "name": "Crying",
+          "likelihood": 85
+        }
+      ],
+      "movements": [
+        {
+          "name": "sad1",
+          "likelihood": 100
+        },
+        {
+          "name": "sad1.1",
+          "likelihood": 100
+        },
+        {
+          "name": "sad1.2",
+          "likelihood": 100
+        },
+        {
+          "name": "sad1.3",
+          "likelihood": 100
+        },
+        {
+          "name": "sad1.4",
+          "likelihood": 100
+        },
+        {
+          "name": "sad1.5",
+          "likelihood": 100
+        },
+        {
+          "name": "sad1.6",
+          "likelihood": 100
+        }
+      ]
+    },
+    "whisper_sleepy": {
+      "emotes": [
+        {
+          "name": "Sleepy",
+          "likelihood": 85
+        }
+      ],
+      "movements": [
+        {
+          "name": "sleepy1",
+          "likelihood": 100
+        },
+        {
+          "name": "sleepy1.1",
+          "likelihood": 100
+        }
+      ]
+    },
+    "__idle__": {
+      "movements": [
+        {
+          "name": "neutral1",
+          "likelihood": 100
+        },
+        {
+          "name": "neutral1.1",
+          "likelihood": 100
+        },
+        {
+          "name": "neutral1.2",
+          "likelihood": 100
+        },
+        {
+          "name": "neutral1.3",
+          "likelihood": 100
+        },
+        {
+          "name": "neutral1.4",
+          "likelihood": 100
+        },
+        {
+          "name": "neutral1.5",
+          "likelihood": 100
+        },
+        {
+          "name": "neutral1.6",
+          "likelihood": 100
+        },
+        {
+          "name": "relived",
+          "likelihood": 60
+        }
+      ]
+    }
+  }
+}
