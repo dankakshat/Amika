@@ -350,6 +350,16 @@ async def chat_endpoint(req: ChatRequest):
         }
 
 if __name__ == "__main__":
+    import sys
     import uvicorn
+    
+    # When running with pythonw.exe (windowless background mode), stdout/stderr are None.
+    # Redirect them to server.log to prevent uvicorn logging crashes.
+    if sys.stdout is None or sys.stderr is None:
+        log_path = os.path.join(BASE_DIR, "server.log")
+        f = open(log_path, "a", encoding="utf-8")
+        sys.stdout = f
+        sys.stderr = f
+
     print("Starting OpenAmika Lite on http://localhost:8000 ...")
     uvicorn.run(app, host="127.0.0.1", port=8000)
