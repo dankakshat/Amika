@@ -5,7 +5,7 @@ import json
 import base64
 import asyncio
 from typing import List, Optional
-from fastapi import FastAPI, HTTPException, UploadFile, File
+from fastapi import FastAPI, HTTPException, UploadFile, File, Form
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse, JSONResponse
 from pydantic import BaseModel
@@ -148,6 +148,119 @@ async def transcribe_endpoint(file: UploadFile = File(...)):
     except Exception as e:
         print(f"Transcribe error: {e}")
         return {"text": "", "error": str(e)}
+
+@app.post("/api/voice_chat")
+async def voice_chat_endpoint(
+    file: UploadFile = File(...),
+    voice: Optional[str] = Form("en-US-AnaNeural"),
+    history: Optional[str] = Form("[]"),
+    api_key_override: Optional[str] = Form(None)
+):
+    """Direct single-hop multimodal voice conversation endpoint."""
+    api_key = (api_key_override or "").strip() or os.environ.get("GEMINI_API_KEY", "").strip() or DEFAULT_API_KEY
+    if not api_key:
+        return {
+            "user_text": "",
+            "text": "[pout] No Gemini API key found! Please configure it in .env or Settings.",
+            "clean_text": "Please configure your Gemini API key in settings or .env file.",
+            "emotion": "pout",
+            "audio": ""
+        }
+    if not GENAI_AVAILABLE:
+        raise HTTPException(status_code=500, detail="google-genai SDK not available")
+
+    try:
+        audio_bytes = await file.read()
+        mime = file.content_type or "audio/webm"
+        client = genai.Client(api_key=api_key)
+        part = types.Part.from_bytes(data=audio_bytes, mime_type=mime)
+
+        parsed_history = []
+        try:
+            if history:
+                parsed_history = json.loads(history)
+        except Exception:
+            parsed_history = []
+
+        history_context = ""
+        for turn in parsed_history[-3:]:
+            r = "User" if turn.get("role") == "user" else "Amika"
+            c = turn.get("content", "")
+            if c:
+                history_context += f"{r}: {c}\n"
+
+        prompt = (
+            "The user is speaking to you in this voice message.\n"
+            f"{'Recent conversation history:' if history_context else ''}\n{history_context}"
+            "Your tasks:\n"
+            "1. Transcribe the user's spoken words accurately in 'user_text'.\n"
+            "2. Reply directly to them as Sakurai Amika (櫻井阿美香), a sweet, cheerful, genuine anime girl companion.\n"
+            "Rules for reply:\n"
+            "- CRITICAL CONVERSATION SPEED RULE: Reply in ONE short, natural, lively sentence (under 12 words) for instant conversation speed!\n"
+            "- Prefix reply with ONE emotion in brackets: [happy], [blush], [love], [shocked], [pout], [thinking], [sad], [star].\n"
+            "- If the audio is silence or unintelligible noise, set user_text to '' and reply to '[happy] I am listening! What did you say?'\n"
+            "Return JSON format ONLY:\n"
+            '{"user_text": "<exact transcription>", "reply": "[emotion] <your response>"}'
+        )
+
+        response = None
+        for m in MODELS_TO_TRY:
+            try:
+                response = client.models.generate_content(
+                    model=m,
+                    contents=[part, prompt],
+                    config=types.GenerateContentConfig(
+                        response_mime_type="application/json",
+                        temperature=0.75,
+                        max_output_tokens=70
+                    )
+                )
+                if response and response.text:
+                    break
+            except Exception as e:
+                print(f"Model {m} voice_chat error: {e}")
+                continue
+
+        if not response or not response.text:
+            raise Exception("No response generated from Gemini.")
+
+        result_data = json.loads(response.text)
+        user_text = result_data.get("user_text", "").strip()
+        raw_reply = result_data.get("reply", "[happy] I hear you!").strip()
+
+        emotion = "happy"
+        match = re.match(r'\[([a-zA-Z]+)\]', raw_reply)
+        if match:
+            emotion = match.group(1).lower()
+
+        clean_text = re.sub(r'\[.*?\]', '', raw_reply).strip()
+        if not clean_text:
+            clean_text = "I'm right here with you!"
+
+        chosen_voice = voice or "en-US-AnaNeural"
+        if any('\u3040' <= c <= '\u309f' or '\u30a0' <= c <= '\u30ff' for c in clean_text):
+            if "ja-JP" not in chosen_voice:
+                chosen_voice = "ja-JP-NanamiNeural"
+
+        b64_audio = await synthesize_speech(clean_text, chosen_voice)
+
+        return {
+            "user_text": user_text,
+            "text": raw_reply,
+            "clean_text": clean_text,
+            "emotion": emotion,
+            "audio": b64_audio
+        }
+    except Exception as e:
+        print(f"Voice chat error: {e}")
+        return {
+            "user_text": "",
+            "text": f"[sad] Sorry, I had trouble: {str(e)}",
+            "clean_text": f"Sorry, I had trouble hearing that: {str(e)}",
+            "emotion": "sad",
+            "audio": "",
+            "error": str(e)
+        }
 
 @app.post("/api/chat")
 async def chat_endpoint(req: ChatRequest):

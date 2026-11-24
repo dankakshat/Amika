@@ -435,6 +435,138 @@
       opacity: 0.9;
     }
 
+    /* Realtime Call Controls & Floating Status Banner */
+    .call-toggle-btn {
+      background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(168, 85, 247, 0.25)) !important;
+      border: 1px solid rgba(236, 72, 153, 0.45) !important;
+      color: #ffd1dc !important;
+      font-weight: 600 !important;
+      transition: all 0.3s ease;
+    }
+
+    .call-toggle-btn:hover {
+      background: linear-gradient(135deg, rgba(236, 72, 153, 0.35), rgba(168, 85, 247, 0.4)) !important;
+      box-shadow: 0 0 14px rgba(236, 72, 153, 0.4);
+    }
+
+    .call-toggle-btn.in-call {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.25), rgba(5, 150, 105, 0.35)) !important;
+      border-color: rgba(16, 185, 129, 0.6) !important;
+      color: #6ee7b7 !important;
+      animation: pulseGlow 1.6s infinite alternate;
+    }
+
+    @keyframes pulseGlow {
+      from { box-shadow: 0 0 4px rgba(16, 185, 129, 0.2); }
+      to { box-shadow: 0 0 16px rgba(16, 185, 129, 0.55); }
+    }
+
+    .call-banner {
+      position: absolute;
+      top: 68px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 30;
+      background: rgba(15, 11, 26, 0.88);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      padding: 9px 18px;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      animation: bannerSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes bannerSlide {
+      from { transform: translate(-50%, -15px); opacity: 0; }
+      to { transform: translate(-50%, 0); opacity: 1; }
+    }
+
+    .call-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #10b981;
+      display: inline-block;
+      box-shadow: 0 0 10px #10b981;
+      animation: blinkDot 1s infinite alternate;
+    }
+
+    .call-dot.listening {
+      background: #ec4899;
+      box-shadow: 0 0 12px #ec4899;
+    }
+
+    .call-dot.processing {
+      background: #f59e0b;
+      box-shadow: 0 0 12px #f59e0b;
+    }
+
+    .call-dot.speaking {
+      background: #3b82f6;
+      box-shadow: 0 0 12px #3b82f6;
+    }
+
+    @keyframes blinkDot {
+      from { opacity: 0.4; transform: scale(0.85); }
+      to { opacity: 1; transform: scale(1.15); }
+    }
+
+    .call-label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #f1f5f9;
+      white-space: nowrap;
+    }
+
+    .call-wave {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      height: 16px;
+    }
+
+    .call-wave span {
+      width: 3px;
+      height: 5px;
+      background: #10b981;
+      border-radius: 2px;
+      transition: height 0.1s ease;
+    }
+
+    .call-wave.active span {
+      background: #ec4899;
+      animation: waveBar 0.55s ease-in-out infinite alternate;
+    }
+    .call-wave.active span:nth-child(2) { animation-delay: 0.1s; }
+    .call-wave.active span:nth-child(3) { animation-delay: 0.2s; }
+    .call-wave.active span:nth-child(4) { animation-delay: 0.3s; }
+    .call-wave.active span:nth-child(5) { animation-delay: 0.4s; }
+
+    @keyframes waveBar {
+      0% { height: 4px; }
+      100% { height: 16px; }
+    }
+
+    .call-end-pill {
+      background: rgba(239, 68, 68, 0.25);
+      border: 1px solid rgba(239, 68, 68, 0.5);
+      color: #fca5a5;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .call-end-pill:hover {
+      background: rgba(239, 68, 68, 0.5);
+      color: #fff;
+    }
+
     /* Loading overlay */
     #loading-overlay {
       position: absolute;
@@ -489,11 +621,22 @@
       <div class="brand-badge">Potato Laptop Edition</div>
     </div>
     <div class="header-actions">
+      <button class="icon-btn call-toggle-btn" id="btn-live-call" title="Hands-free real-time voice call">📞 Realtime Call</button>
       <button class="icon-btn" id="btn-reset-view">🔄 Reset View</button>
       <button class="icon-btn" id="btn-touch">👋 Poke Amika</button>
       <button class="icon-btn" id="btn-settings">⚙️ Settings</button>
     </div>
   </header>
+
+  <!-- Realtime Call Floating Status Banner -->
+  <div class="call-banner" id="call-banner" style="display: none;">
+    <span class="call-dot" id="call-dot"></span>
+    <span class="call-label" id="call-status-label">Listening for speech... (Hands-Free)</span>
+    <div class="call-wave" id="call-wave">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <button class="call-end-pill" id="btn-end-call">Hang Up</button>
+  </div>
 
   <!-- Live2D Stage -->
   <div id="stage-container">
@@ -601,6 +744,12 @@
     const btnTouch = document.getElementById('btn-touch');
     const btnSettings = document.getElementById('btn-settings');
     const btnResetView = document.getElementById('btn-reset-view');
+    const btnLiveCall = document.getElementById('btn-live-call');
+    const callBanner = document.getElementById('call-banner');
+    const callDot = document.getElementById('call-dot');
+    const callStatusLabel = document.getElementById('call-status-label');
+    const callWave = document.getElementById('call-wave');
+    const btnEndCall = document.getElementById('btn-end-call');
     const modalSettings = document.getElementById('modal-settings');
     const modalClose = document.getElementById('modal-close');
     const btnSaveSettings = document.getElementById('btn-save-settings');
@@ -750,8 +899,11 @@
     btnResetView.addEventListener('click', resetPosition);
 
     // Audio Lip Sync with Web Audio API
-    function playAudioWithLipSync(base64Audio) {
-      if (!base64Audio) return;
+    function playAudioWithLipSync(base64Audio, onEndedCallback) {
+      if (!base64Audio) {
+        if (typeof onEndedCallback === 'function') onEndedCallback();
+        return;
+      }
 
       if (!audioContext) {
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -783,7 +935,13 @@
           if (live2dModel && live2dModel.internalModel && live2dModel.internalModel.coreModel) {
             live2dModel.internalModel.coreModel.setParameterValueById('ParamMouthOpenY', 0);
           }
+          if (typeof onEndedCallback === 'function') {
+            onEndedCallback();
+          }
         };
+      }, (err) => {
+        console.error("Decode error:", err);
+        if (typeof onEndedCallback === 'function') onEndedCallback();
       });
     }
 
@@ -909,12 +1067,241 @@
       speakText(pick.text);
     });
 
-    // Universal Microphone Recording (Works in Floorp, Firefox, Chrome, Edge)
+    // Helper to send recorded voice audio directly to /api/voice_chat (Single Step)
+    async function sendVoiceAudioBlob(audioBlob, isFromCall = false) {
+      if (audioBlob.size < 600) {
+        if (isFromCall && isCallActive) {
+          setCallStatus('LISTENING', 'Listening (Hands-free)...');
+          callState = 'LISTENING';
+        }
+        return;
+      }
+
+      showDialogue("thinking", "Amika is listening and thinking...");
+
+      try {
+        const formData = new FormData();
+        formData.append("file", audioBlob, "user_voice.webm");
+        const voice = localStorage.getItem('amika_voice') || 'en-US-AnaNeural';
+        formData.append("voice", voice);
+        formData.append("history", JSON.stringify(chatHistory.slice(-4)));
+
+        const apiKey = localStorage.getItem('amika_gemini_key') || "";
+        if (apiKey) formData.append("api_key_override", apiKey);
+
+        const res = await fetch("/api/voice_chat", {
+          method: "POST",
+          body: formData
+        });
+
+        const data = await res.json();
+        if (data.user_text && data.user_text.trim()) {
+          chatHistory.push({ role: 'user', content: data.user_text.trim() });
+        }
+        if (data.text) {
+          chatHistory.push({ role: 'assistant', content: data.text });
+          showDialogue(data.emotion || 'happy', data.clean_text || data.text);
+        }
+
+        if (data.audio) {
+          if (isFromCall && isCallActive) {
+            callState = 'SPEAKING';
+            setCallStatus('SPEAKING', 'Amika is speaking... 🗣️');
+          }
+          playAudioWithLipSync(data.audio, () => {
+            if (isFromCall && isCallActive) {
+              callState = 'LISTENING';
+              setCallStatus('LISTENING', 'Listening (Speak anytime)... 👂');
+            }
+          });
+        } else {
+          if (isFromCall && isCallActive) {
+            callState = 'LISTENING';
+            setCallStatus('LISTENING', 'Listening (Speak anytime)... 👂');
+          }
+        }
+      } catch (err) {
+        console.error("Voice chat error:", err);
+        showDialogue("sad", "Voice error: " + err.message);
+        if (isFromCall && isCallActive) {
+          callState = 'LISTENING';
+          setCallStatus('LISTENING', 'Listening (Speak anytime)... 👂');
+        }
+      }
+    }
+
+    // ==========================================
+    // Realtime Voice Call (Hands-Free VAD Engine)
+    // ==========================================
+    let isCallActive = false;
+    let callState = 'IDLE'; // 'IDLE', 'LISTENING', 'RECORDING', 'PROCESSING', 'SPEAKING'
+    let callStream = null;
+    let callAudioCtx = null;
+    let callAnalyser = null;
+    let callMediaRecorder = null;
+    let callAudioChunks = [];
+    let speechStartTime = 0;
+    let lastSpeechTime = 0;
+
+    function setCallStatus(state, labelText) {
+      callState = state;
+      callStatusLabel.textContent = labelText;
+      callDot.className = 'call-dot ' + state.toLowerCase();
+      if (state === 'RECORDING') {
+        callWave.classList.add('active');
+      } else {
+        callWave.classList.remove('active');
+      }
+    }
+
+    async function startRealtimeCall() {
+      if (isCallActive) {
+        endRealtimeCall();
+        return;
+      }
+
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        alert("Microphone is not supported in this browser environment.");
+        return;
+      }
+
+      try {
+        callStream = await navigator.mediaDevices.getUserMedia({
+          audio: {
+            echoCancellation: true,
+            noiseSuppression: true,
+            autoGainControl: true
+          }
+        });
+
+        isCallActive = true;
+        btnLiveCall.classList.add('in-call');
+        btnLiveCall.innerText = '🛑 End Call';
+        callBanner.style.display = 'flex';
+        setCallStatus('LISTENING', 'Listening for your voice... (Hands-free)');
+
+        // AudioContext for real-time volume RMS calculation
+        callAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (callAudioCtx.state === 'suspended') {
+          await callAudioCtx.resume();
+        }
+        const sourceNode = callAudioCtx.createMediaStreamSource(callStream);
+        callAnalyser = callAudioCtx.createAnalyser();
+        callAnalyser.fftSize = 512;
+        callAnalyser.smoothingTimeConstant = 0.2;
+        sourceNode.connect(callAnalyser);
+
+        showDialogue('happy', "Hey! I'm on call with you! Speak whenever you want, no buttons needed!");
+        speakText("Hey! I'm on call with you! Speak whenever you want, no buttons needed!");
+
+        requestAnimationFrame(runVadLoop);
+      } catch (err) {
+        console.error("Call start error:", err);
+        alert("Could not access microphone: " + err.message);
+      }
+    }
+
+    function endRealtimeCall() {
+      isCallActive = false;
+      callState = 'IDLE';
+      btnLiveCall.classList.remove('in-call');
+      btnLiveCall.innerText = '📞 Realtime Call';
+      callBanner.style.display = 'none';
+
+      if (callMediaRecorder && callMediaRecorder.state !== 'inactive') {
+        try { callMediaRecorder.stop(); } catch(e) {}
+      }
+      if (callStream) {
+        callStream.getTracks().forEach(t => t.stop());
+        callStream = null;
+      }
+      if (callAudioCtx) {
+        try { callAudioCtx.close(); } catch(e) {}
+        callAudioCtx = null;
+      }
+      showDialogue('happy', "Call ended! Click 'Realtime Call' anytime you want to chat hands-free again.");
+    }
+
+    function runVadLoop() {
+      if (!isCallActive || !callAnalyser) return;
+
+      const dataArray = new Uint8Array(callAnalyser.frequencyBinCount);
+      callAnalyser.getByteTimeDomainData(dataArray);
+
+      let sum = 0;
+      for (let i = 0; i < dataArray.length; i++) {
+        const val = (dataArray[i] - 128) / 128.0;
+        sum += val * val;
+      }
+      const rms = Math.sqrt(sum / dataArray.length);
+
+      const VAD_SPEECH_THRESHOLD = 0.022; // speech volume threshold
+      const isSpeech = rms > VAD_SPEECH_THRESHOLD;
+      const now = Date.now();
+
+      if (isSpeech && callState === 'LISTENING') {
+        // User started speaking!
+        callState = 'RECORDING';
+        speechStartTime = now;
+        lastSpeechTime = now;
+        callAudioChunks = [];
+
+        try {
+          callMediaRecorder = new MediaRecorder(callStream);
+          callMediaRecorder.ondataavailable = (e) => {
+            if (e.data && e.data.size > 0) callAudioChunks.push(e.data);
+          };
+          callMediaRecorder.onstop = () => {
+            const mimeType = callMediaRecorder.mimeType || 'audio/webm';
+            const audioBlob = new Blob(callAudioChunks, { type: mimeType });
+            sendVoiceAudioBlob(audioBlob, true);
+          };
+          callMediaRecorder.start(100);
+          setCallStatus('RECORDING', 'Listening to you... 👂');
+        } catch (e) {
+          console.error("Recorder start error:", e);
+          callState = 'LISTENING';
+        }
+      } else if (callState === 'RECORDING') {
+        if (isSpeech) {
+          lastSpeechTime = now;
+        } else {
+          const silenceDuration = now - lastSpeechTime;
+          const speechDuration = now - speechStartTime;
+
+          // If user spoke for at least 350ms and paused for 750ms: automatically commit!
+          if (speechDuration >= 350 && silenceDuration > 750) {
+            setCallStatus('PROCESSING', 'Amika is answering... 💭');
+            try {
+              if (callMediaRecorder && callMediaRecorder.state === 'recording') {
+                callMediaRecorder.stop();
+              }
+            } catch (e) {
+              console.error("Stop recorder error:", e);
+            }
+          }
+        }
+      }
+
+      requestAnimationFrame(runVadLoop);
+    }
+
+    btnLiveCall.addEventListener('click', startRealtimeCall);
+    btnEndCall.addEventListener('click', endRealtimeCall);
+
+    // ==========================================
+    // Push-to-Talk Manual Mic Button (Chat Dock)
+    // ==========================================
     let mediaRecorder = null;
     let audioChunks = [];
     let isRecording = false;
 
     btnMic.addEventListener('click', async () => {
+      if (isCallActive) {
+        alert("You are currently in a Realtime Voice Call! You can speak hands-free anytime.");
+        return;
+      }
+
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
         alert("Microphone is not supported in this browser environment.");
         return;
@@ -927,44 +1314,15 @@
           mediaRecorder = new MediaRecorder(stream);
 
           mediaRecorder.ondataavailable = (e) => {
-            if (e.data && e.data.size > 0) {
-              audioChunks.push(e.data);
-            }
+            if (e.data && e.data.size > 0) audioChunks.push(e.data);
           };
 
           mediaRecorder.onstop = async () => {
             const mimeType = mediaRecorder.mimeType || 'audio/webm';
             const audioBlob = new Blob(audioChunks, { type: mimeType });
             stream.getTracks().forEach(track => track.stop());
-
-            if (audioBlob.size < 500) {
-              chatInput.placeholder = "Type a message or press mic to speak...";
-              return;
-            }
-
-            showDialogue("thinking", "Listening and understanding your voice...");
-
-            try {
-              const formData = new FormData();
-              formData.append("file", audioBlob, "user_speech.webm");
-
-              const res = await fetch("/api/transcribe", {
-                method: "POST",
-                body: formData
-              });
-
-              const data = await res.json();
-              if (data.text && data.text.trim()) {
-                chatInput.value = data.text.trim();
-                sendMessage();
-              } else {
-                showDialogue("question", "I couldn't hear clearly, could you try speaking again?");
-              }
-            } catch (err) {
-              showDialogue("sad", "Voice recognition error: " + err.message);
-            } finally {
-              chatInput.placeholder = "Type a message or press mic to speak...";
-            }
+            chatInput.placeholder = "Type a message or press mic to speak...";
+            await sendVoiceAudioBlob(audioBlob, false);
           };
 
           mediaRecorder.start();
@@ -973,7 +1331,7 @@
           chatInput.placeholder = "🔴 Listening to you... Click mic again to finish & send!";
         } catch (err) {
           console.error("Mic error:", err);
-          alert("Microphone permission was denied. Please allow microphone access in Floorp's URL bar.");
+          alert("Microphone permission was denied. Please allow microphone access in your browser's address bar.");
         }
       } else {
         isRecording = false;
